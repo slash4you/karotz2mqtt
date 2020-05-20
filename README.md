@@ -1,5 +1,5 @@
 # karotz2mqtt
-Homeassistant gateway for Karotz device through MQTT protocol.
+Configurable Karotz to  [MQTT](https://www.home-assistant.io/integrations/mqtt/)  gateway for [Homeassistant](https://www.home-assistant.io/)  integration.
 
 - Karotz card when switched-on 
 
@@ -11,7 +11,7 @@ Homeassistant gateway for Karotz device through MQTT protocol.
 
 ## Pre-requisites
 
-You obviously have to take control of your favorite rabbit to be able to insert the gateway into the processes startup sequence. There are several way to do this, that I won't explain here. In my case I previously installed FreeRabbits OS and customized it a little to fit my needs. Feel free to do this as you want.
+You obviously have to take control of your favorite rabbit to be able to insert the gateway into the processes startup sequence. There are several way to do this, that I won't explain here. In my case I previously installed [FreeRabbits OS](https://www.freerabbits.nl/fros/) and customized it a little to fit my needs. 
 
 ## Startup process
 
@@ -139,22 +139,22 @@ May 19 18:55:13 karotz user.crit karotz2mqtt[20436]: karotz2mqtt startup - softw
 
 During startup the gateway tries to connect to the MQTT broker according the command line settings every 60 seconds. On successful connection the gateway publish discovery data into the following topics : 
 
-- <discovery prefix>/cover/<location>-karotz_<id>/left_ear_position
-- <discovery prefix>/cover/<location>-karotz_<id>/right_ear_position
-- <discovery prefix>/light/<location>-karotz_<id>/dimmer
-- <discovery prefix>/binary_sensor/<location>-karotz_<id>/status
+- < *discovery prefix* >/cover/< *location* >-karotz_< *id* >/left_ear_position
+- < *discovery prefix* >/cover/< *location* >-karotz_< *id* >/right_ear_position
+- < *discovery prefix* >/light/< *location* >-karotz_< *id* >/dimmer
+- < *discovery prefix* >/binary_sensor/< *location* >-karotz_< *id* >/status
 
 ![mqtt_explorer](doc/mqtt_explorer.png)
 
 Then current ears position and led-relative data are published into the following topics :
 
-- <mqtt prefix>/karotz_<id>/status
+- < *mqtt prefix* >/karotz_< *id* >/status
 
-- <mqtt prefix>/karotz_<id>/ear/left
+- < *mqtt prefix* >/karotz_< *id* >/ear/left
 
-- <mqtt prefix>/karotz_<id>/ear/right
+- < *mqtt prefix* >/karotz_< *id* >/ear/right
 
-- <mqtt prefix>/karotz_<id>/led
+- < *mqtt prefix* >/karotz_< *id* >/led
 
 ![mqtt_karotz_data](doc/mqtt_karotz_data.png)
 
