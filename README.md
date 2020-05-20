@@ -73,7 +73,7 @@ The process has a few dependencies as displayed hereafter :
 -bash-4.1# 
 ```
 
-New ones are libzmq.so.1, libmosquittopp.so.1 and libmosquitto.so.1. I used the former for my internal software design but it may be removed in a future release. I obviously needed the latter to manage MQTT protocol and the second library is only a C++ wrapper to main mosquitto library provided as C library code.
+New ones are libzmq.so.1, libmosquittopp.so.1 and libmosquitto.so.1. I use the former for my internal software design but it may be removed in a future release. I obviously need the latter to manage MQTT protocol and the second library is only a C++ wrapper to main mosquitto library provided as C library code.
 
 The process shall be started after all dbus daemons ( ears-daemon, led-daemon, voice-daemon,... ) as it connects itself to the system bus and controls the device through those proxies. As I found no way to be notified to daemons startup, I insert a short delay before starting the gateway by this way : 
 
@@ -97,6 +97,7 @@ function start_mqtt_gateway {
     logger -s "[STARTUP] Start mqtt gateway"
    [ -f /usr/karotz/bin/karotz2mqtt ] && /usr/karotz/bin/karotz2mqtt -b @@IP@@ -u @@USERNAME@@ -P @@PASSWORD@@ & >/dev/null 2>/dev/null      
 }
+
 logger -s "[STARTUP] Starting Startup script"
 
 led_cyan_pulse
@@ -157,6 +158,66 @@ Then current ears position and led-relative data are published into the followin
 
 ![mqtt_karotz_data](doc/mqtt_karotz_data.png)
 
-## Homeassistant card
+## Homeassistant integration
+
+TODO
+
+## Karotz ethernet drivers
+
+A few years ago I cross-compiled 2 drivers for karotz device. I daily use the first one to prevent from using karotz wifi.  The second one has been provided to FreeRabbits team and I do not know if it's actually used by someone. Feel free to use one of them if needed. 
+
+### 1- Edimax EU-4230 USB to LAN adapter
+
+```
+-bash-4.1# insmod /usr/karotz/firmware/asix.ko
+-bash-4.1# dmesg
+...
+usbcore: registered new interface driver asix
+hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0004
+hub 1-1:1.0: port 2, status 0101, change 0001, 12 Mb/s
+hub 1-1:1.0: debounce: port 2: total 100ms stable 100ms status 0x101
+usb 1-1.2: new full speed USB device using s3c2410-ohci and address 5
+usb 1-1.2: ep0 maxpacket = 8
+usb 1-1.2: default language 0x0409
+usb 1-1.2: uevent
+usb 1-1.2: usb_probe_device
+usb 1-1.2: configuration #1 chosen from 1 choice
+usb 1-1.2: adding 1-1.2:1.0 (config #1, interface 0)
+usb 1-1.2:1.0: uevent
+usbserial_generic 1-1.2:1.0: usb_probe_interface
+usbserial_generic 1-1.2:1.0: usb_probe_interface - got id
+asix 1-1.2:1.0: usb_probe_interface
+asix 1-1.2:1.0: usb_probe_interface - got id
+eth0: register 'asix' at usb-s3c24xx-1.2, ASIX AX88772 USB 2.0 Ethernet, d8:eb:97:bf:f4:f4
+drivers/usb/core/inode.c: creating file '005'
+usb 1-1.2: New USB device found, idVendor=0b95, idProduct=7720
+usb 1-1.2: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+usb 1-1.2: Product: AX88x72A
+usb 1-1.2: Manufacturer: ASIX Elec. Corp.
+usb 1-1.2: SerialNumber: BFF4F4
+hub 1-1:1.0: state 7 ports 4 chg 0000 evt 0004
+eth0: link down
+...
+```
+
+Refer to this link [ax88772 driver](https://www.freerabbits.nl/adding-drivers-part-1/) for more details.
+
+### 2- [TP-Link 150Mbps Wireless N Nano USB Adapter](https://www.tp-link.com/us/products/details/TL-WN725N.html) 
+
+```
+-bash-4.1# insmod /usr/karotz/firmware/8188eu.ko
+-bash-4.1# dmesg
+...
+RTL871X: module init start
+RTL871X: rtl8188eu v4.3.0.8_13968.20150417
+RTL871X: build time: Apr 21 2018 23:11:46
+usbcore: registered new interface driver rtl8188eu
+RTL871X: module init ret=0
+...
+```
+
+Refer to this link [rtl8188eu driver](https://www.freerabbits.nl/adding-drivers-part-2/) for more details.
+
+## armv4t cross toolchain
 
 TODO
