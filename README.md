@@ -3,7 +3,7 @@ Homeassistant gateway for Karotz device through MQTT protocol.
 
 - Karotz card when switched-on 
 
-![homeassistant_karotz](./doc/homeassistant_karotz.png)
+![homeassistant_karotz](doc/homeassistant_karotz.png)
 
 - Karotz card when switched-off
 
@@ -11,11 +11,11 @@ Homeassistant gateway for Karotz device through MQTT protocol.
 
 ## Pre-requisites
 
-You obviously have to take control of your favourite rabbit to be able to insert the gateway into the processes startup sequence. There are several way to do this, that I won't explain here. In my case I previously installed FreeRabbits OS and customized it a little to fit my needs. Feel free to do this as you want.
+You obviously have to take control of your favorite rabbit to be able to insert the gateway into the processes startup sequence. There are several way to do this, that I won't explain here. In my case I previously installed FreeRabbits OS and customized it a little to fit my needs. Feel free to do this as you want.
 
 ## Startup process
 
-Ears and Led states/controls are registered into the broker as soon as the MQTT gateway is started.  Then Karotz device is automatically detected by home assistant if discovery has been enabled. The gateway shall be setted up by the following valid command line arguments :
+Ears and Led states/controls are registered into the broker as soon as the MQTT gateway is started.  Then Karotz device is automatically detected by homeassistant if discovery has been enabled. The gateway shall be setted up by the following valid command line arguments :
 
 ```
                         _           _                    
@@ -95,7 +95,7 @@ function start_bricks {
 
 function start_mqtt_gateway {
     logger -s "[STARTUP] Start mqtt gateway"
-   [ -f /usr/karotz/bin/karotz2mqtt ] && /usr/karotz/bin/karotz2mqtt -b 192.168.1.31 & >/dev/null 2>/dev/null      
+   [ -f /usr/karotz/bin/karotz2mqtt ] && /usr/karotz/bin/karotz2mqtt -b @@IP@@ -u @@USERNAME@@ -P @@PASSWORD@@ & >/dev/null 2>/dev/null      
 }
 logger -s "[STARTUP] Starting Startup script"
 
@@ -125,11 +125,38 @@ logger "[STARTUP] Startup script finished"
 
 ```
 
-Logs can be found into system logs as they are managed through syslog tool.
+Logs can be found into system logs as they are managed by syslog tool.
 
 ```
--bash-4.1# tail -n 100 /var/log/messages                                                     ...
+-bash-4.1# tail -n 100 /var/log/messages
+...
 May 19 18:55:13 karotz user.crit karotz2mqtt[20436]: karotz2mqtt startup - software release '3.8.0-r1013' built on '2020-05-18 09:20 +0200'
 ...
 ```
 
+## MQTT broker connection
+
+During startup the gateway tries to connect to the MQTT broker according the command line settings every 60 seconds. On successful connection the gateway publish discovery data into the following topics : 
+
+- <discovery prefix>/cover/<location>-karotz_<id>/left_ear_position
+- <discovery prefix>/cover/<location>-karotz_<id>/right_ear_position
+- <discovery prefix>/light/<location>-karotz_<id>/dimmer
+- <discovery prefix>/binary_sensor/<location>-karotz_<id>/status
+
+![mqtt_explorer](doc/mqtt_explorer.png)
+
+Then current ears position and led-relative data are published into the following topics :
+
+- <mqtt prefix>/karotz_<id>/status
+
+- <mqtt prefix>/karotz_<id>/ear/left
+
+- <mqtt prefix>/karotz_<id>/ear/right
+
+- <mqtt prefix>/karotz_<id>/led
+
+![mqtt_karotz_data](doc/mqtt_karotz_data.png)
+
+## Homeassistant card
+
+TODO
