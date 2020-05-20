@@ -233,3 +233,7 @@ Refer to this link [rtl8188eu driver](https://www.freerabbits.nl/adding-drivers-
 ## armv4t cross toolchain
 
 TODO
+
+## Roadmap
+
+I won't waste time to publish the sources before this software is stable enough (i.e. bug-free) and before rewriting the core of the code to remove **libzmq** dependency.
