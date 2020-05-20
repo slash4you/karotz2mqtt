@@ -47,7 +47,7 @@ karotz2mqtt - Proxy mqtt for KAROTZ system
   -P, --broker-password   mqtt broker password.
   -l, --location          location setup.
   -v, --verbose           verbosity increase.
-  -f,--flash              flashing period in ms
+  -f, --flash             flashing period in ms
   -i, --id                device id.
   
 -bash-4.1# 
@@ -172,7 +172,7 @@ Karotz device is automatically detected since discovery has been enabled and 4 e
 
 My lovelace card is not the default one. I use [Custom Light Entity Card](https://github.com/ljmerza/light-entity-card) and [Custom Slider Entity Card](https://github.com/thomasloven/lovelace-slider-entity-row) to improve the rendering.
 
-![homeassistant_karotz_lovelace](/home/slash4u/Téléchargements/karotz2mqtt/doc/homeassistant_karotz_lovelace.png) 
+![homeassistant_karotz_lovelace](doc/homeassistant_karotz_lovelace.png) 
 
 ## Karotz ethernet drivers
 
