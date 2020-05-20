@@ -48,6 +48,7 @@ karotz2mqtt - Proxy mqtt for KAROTZ system
   -l, --location          location setup.
   -v, --verbose           verbosity increase.
   -f,--flash              flashing period in ms
+  -i, --id                device id.
   
 -bash-4.1# 
 ```
@@ -73,9 +74,9 @@ The process has a few dependencies as displayed hereafter :
 -bash-4.1# 
 ```
 
-New ones are libzmq.so.1, libmosquittopp.so.1 and libmosquitto.so.1. I use the former for my internal software design but it may be removed in a future release. I obviously need the latter to manage MQTT protocol and the second library is only a C++ wrapper to main mosquitto library provided as C library code.
+New ones are **libzmq.so.1**, **libmosquittopp.so.1** and **libmosquitto.so.1**. I use the former for my internal software design but it may be removed in a future release. I obviously need the latter to manage [MQTT](https://www.home-assistant.io/integrations/mqtt/) protocol and the second library is only a C++ wrapper to main mosquitto library provided as C library code.
 
-The process shall be started after all dbus daemons ( ears-daemon, led-daemon, voice-daemon,... ) as it connects itself to the system bus and controls the device through those proxies. As I found no way to be notified to daemons startup, I insert a short delay before starting the gateway by this way : 
+The process shall be started after all **dbus** daemons ( ears-daemon, led-daemon, voice-daemon,... ) as it connects itself to the system bus and controls the device through those proxies. As I found no way to be notified to daemons startup, I insert a short delay before starting the gateway by this way : 
 
 ```
 -bash-4.1# cat /usr/scripts/startup.sh 
@@ -126,7 +127,7 @@ logger "[STARTUP] Startup script finished"
 
 ```
 
-Logs can be found into system logs as they are managed by syslog tool.
+Logs can be found into system logs as they are managed by **syslog** tool.
 
 ```
 -bash-4.1# tail -n 100 /var/log/messages
@@ -137,30 +138,41 @@ May 19 18:55:13 karotz user.crit karotz2mqtt[20436]: karotz2mqtt startup - softw
 
 ## MQTT broker connection
 
-During startup the gateway tries to connect to the MQTT broker according the command line settings every 60 seconds. On successful connection the gateway publish discovery data into the following topics : 
+During startup the gateway tries to connect to the [MQTT](https://www.home-assistant.io/integrations/mqtt/) broker according the command line settings every 60 seconds. On successful connection the gateway publish discovery data into the following topics : 
 
-- < *discovery prefix* >/cover/< *location* >-karotz_< *id* >/left_ear_position
-- < *discovery prefix* >/cover/< *location* >-karotz_< *id* >/right_ear_position
-- < *discovery prefix* >/light/< *location* >-karotz_< *id* >/dimmer
-- < *discovery prefix* >/binary_sensor/< *location* >-karotz_< *id* >/status
+- < ***discovery prefix*** >/cover/< ***location*** >-karotz_< ***id*** >/left_ear_position
+- < ***discovery prefix*** >/cover/< ***location*** >-karotz_< ***id*** >/right_ear_position
+- < ***discovery prefix*** >/light/< ***location*** >-karotz_< ***id*** >/dimmer
+- < ***discovery prefix*** >/binary_sensor/< ***location*** >-karotz_< ***id*** >/status
 
 ![mqtt_explorer](doc/mqtt_explorer.png)
 
 Then current ears position and led-relative data are published into the following topics :
 
-- < *mqtt prefix* >/karotz_< *id* >/status
+- < ***mqtt prefix*** >/karotz_< ***id*** >/status
 
-- < *mqtt prefix* >/karotz_< *id* >/ear/left
+- < ***mqtt prefix*** >/karotz_< ***id*** >/ear/left
 
-- < *mqtt prefix* >/karotz_< *id* >/ear/right
+- < ***mqtt prefix*** >/karotz_< ***id*** >/ear/right
 
-- < *mqtt prefix* >/karotz_< *id* >/led
+- < ***mqtt prefix*** >/karotz_< ***id*** >/led
 
 ![mqtt_karotz_data](doc/mqtt_karotz_data.png)
 
 ## Homeassistant integration
 
-TODO
+Karotz device is automatically detected since discovery has been enabled and 4 entities are available for further automations :
+
+- Led : color, on/off, effect
+- Left ear : position
+- Right ear : position
+- Status : karotz connection
+
+![homeassistant_karotz_integration](doc/homeassistant_karotz_integration.png)
+
+My lovelace card is not the default one. I use [Custom Light Entity Card](https://github.com/ljmerza/light-entity-card) and [Custom Slider Entity Card](https://github.com/thomasloven/lovelace-slider-entity-row) to improve the rendering.
+
+![homeassistant_karotz_lovelace](/home/slash4u/Téléchargements/karotz2mqtt/doc/homeassistant_karotz_lovelace.png) 
 
 ## Karotz ethernet drivers
 
