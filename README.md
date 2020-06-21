@@ -89,8 +89,6 @@ function start_bricks {
     /usr/karotz/bin/immortaldog /var/run/karotz/webcam.pid /usr/karotz/bin/webcam-daemon >/dev/null 2>/dev/null
     /usr/karotz/bin/immortaldog /var/run/karotz/button.pid /usr/karotz/bin/button-daemon >/dev/null 2>/dev/null
     /usr/karotz/bin/immortaldog /var/run/karotz/ears.pid /usr/karotz/bin/ears-daemon >/dev/null 2>/dev/null
-    /usr/karotz/bin/immortaldog /var/run/karotz/voice.pid /usr/karotz/bin/voice-daemon >/dev/null 2>/dev/null
-    /usr/karotz/bin/immortaldog /var/run/karotz/multimedia.pid /usr/karotz/bin/multimedia-daemon >/dev/null 2>/dev/null
     /usr/karotz/bin/immortaldog /var/run/karotz/dbus_watcher.pid /usr/scripts/dbus_watcher >/dev/null 2>/dev/null
 }
 
