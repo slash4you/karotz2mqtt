@@ -137,7 +137,7 @@ May 19 18:55:13 karotz user.crit karotz2mqtt[20436]: karotz2mqtt startup - softw
 ## DBUS proxies
 
 I had to do another trick to successfully control both ears.
-Indeed, ears-daemon provided with last violet rootfs ( 12.07.19.00 ) which was included into freeeabbits-os is buggy. With this release I managed to successfully control the position of one ear, but not the other one. That's why I had to replace it with a previous release provided with 11.12.21.00 rootfs, like this :
+Indeed, ears-daemon provided with last violet rootfs ( 12.07.19.00 ) which was included into freerabbits-os is buggy. With this release I managed to successfully control the position of one ear, but not the other one. That's why I had to replace it with a previous release provided with 11.12.21.00 rootfs, like this :
 
 ```
 -bash-4.1# ls -l /usr/karotz/bin/ears-*
