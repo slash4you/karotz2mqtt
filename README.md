@@ -134,6 +134,18 @@ May 19 18:55:13 karotz user.crit karotz2mqtt[20436]: karotz2mqtt startup - softw
 ...
 ```
 
+## DBUS proxies
+
+I had to do another trick to successfully control both ears.
+Indeed, ears-daemon provided with last violet rootfs ( 12.07.19.00 ) which was included into freeeabbits-os is buggy. With this release I managed to successfully control the position of one ear, but not the other one. That's why I had to replace it with a previous release provided with 11.12.21.00 rootfs, like this :
+
+```
+-bash-4.1# ls -l /usr/karotz/bin/ears-*
+lrwxrwxrwx    1 root     root            23 Jan 15  2017 ears-daemon -> ears-daemon.11.12.21.00
+-rwxr-xr-x    1 root     root         26180 Jan 15  2017 ears-daemon.11.12.21.00
+-rwxr-xr-x    1 root     root         27912 Jul 19  2012 ears-daemon.12.07.19.00
+```
+
 ## MQTT broker connection
 
 During startup the gateway tries to connect to the [MQTT](https://www.home-assistant.io/integrations/mqtt/) broker according the command line settings every 60 seconds. On successful connection the gateway publish discovery data into the following topics : 
